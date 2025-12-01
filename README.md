@@ -125,6 +125,6 @@ This calls:
 
 ---
 
-**Author:** Ruitao Zhang
-**Course:** CS461 — Deep Learning for NLP, Fall 2025
+**Author:** Ruitao Zhang 
+**Course:** CS461 — Deep Learning for NLP, Fall 2025 
 **Instructor:** Prof. David Demeter
