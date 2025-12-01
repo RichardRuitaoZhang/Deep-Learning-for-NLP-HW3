@@ -22,8 +22,8 @@ HW3/
 ├── __pycache__/                     # Python cache files
 ├── logs/                            # Training & evaluation logs
 ├── scripts/                         # GPU / SLURM wrapper scripts
-│   ├── run_lora_gpu.sh              # SLURM wrapper for LoRA training
-│   └── run_adapter_gpu.sh           # SLURM wrapper for Adapter training
+│   ├── run_lora.sh                  # SLURM wrapper for LoRA training
+│   └── run_adapter.sh               # SLURM wrapper for Adapter training
 ├── .gitignore                       # Excludes data/ and pretrain/ large folders
 ├── peft.yml                         # Conda environment for HW3
 ├── peft_adapter.py                  # Bottleneck adapter module + training script
@@ -92,7 +92,7 @@ All training should be launched via SLURM wrappers in `scripts/`.
 ### **LoRA Training**
 
 ```bash
-sbatch scripts/run_lora_gpu.sh
+sbatch scripts/run_lora.sh
 ```
 
 This calls:
@@ -106,7 +106,7 @@ This calls:
 ### **Adapter Training**
 
 ```bash
-sbatch scripts/run_adapter_gpu.sh
+sbatch scripts/run_adapter.sh
 ```
 
 This calls:
