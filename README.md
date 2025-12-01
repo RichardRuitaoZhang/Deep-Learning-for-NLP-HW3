@@ -1,5 +1,5 @@
 # CS461: Deep Learning for NLP — HW3  
-**Parameter-Efficient Fine-Tuning (PEFT): LoRA + Adapter**
+## Parameter-Efficient Fine-Tuning (PEFT): LoRA + Adapter
 
 This repository contains the full code implementation, environment configuration, and SLURM GPU wrappers for **Homework 3** of CS461 (Fall 2025).  
 The assignment focuses on parameter-efficient fine-tuning of a GPT-style model using:
