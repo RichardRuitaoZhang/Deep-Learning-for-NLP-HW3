@@ -1,15 +1,3 @@
-Understood — **prefix-tuning is abandoned**, and **the final HW3 submission includes ONLY:**
-
-* **LoRA**
-* **Adapter (bottleneck adapter)**
-
-Prefix-tuning is *not* part of the final README except as an optional, unused older file.
-
-Here is the **correct, final, clean README** in **one single Markdown chunk**, reflecting the *actual* HW3 structure and deliverables.
-
----
-
-````markdown
 # CS461: Deep Learning for NLP — HW3  
 **Parameter-Efficient Fine-Tuning (PEFT): LoRA + Adapter**
 
@@ -42,7 +30,6 @@ HW3/
 ├── peft_lora.py                     # LoRA implementation + training script
 ├── peft_prefix(abandoned).py        # Early prefix-tuning attempt (not used)
 └── starter.py                       # Original TransformerGPT implementation from HW2
-````
 
 ---
 
