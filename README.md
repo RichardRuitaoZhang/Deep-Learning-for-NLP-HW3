@@ -1,62 +1,80 @@
-```markdown
-# CS461: Deep Learning for NLP — HW3
-**Parameter-Efficient Fine-Tuning (PEFT): LoRA + Prefix-Tuning**
+Understood — **prefix-tuning is abandoned**, and **the final HW3 submission includes ONLY:**
 
-This repository contains the full implementation, environment configuration, and SLURM GPU wrappers for Homework 3 of CS461 (Fall 2025).  
+* **LoRA**
+* **Adapter (bottleneck adapter)**
+
+Prefix-tuning is *not* part of the final README except as an optional, unused older file.
+
+Here is the **correct, final, clean README** in **one single Markdown chunk**, reflecting the *actual* HW3 structure and deliverables.
+
+---
+
+````markdown
+# CS461: Deep Learning for NLP — HW3  
+**Parameter-Efficient Fine-Tuning (PEFT): LoRA + Adapter**
+
+This repository contains the full code implementation, environment configuration, and SLURM GPU wrappers for **Homework 3** of CS461 (Fall 2025).  
 The assignment focuses on parameter-efficient fine-tuning of a GPT-style model using:
 
 1. **LoRA** (Low-Rank Adaptation)  
-2. **Prefix-Tuning** (Key/Value prefix injection)
+2. **Adapter Tuning** (bottleneck adapter inserted into each Transformer block)
 
-Large pretrained files and datasets are **not tracked** in this repository.  
-They must be obtained from **Canvas** or copied from your **HW2 repository** before running experiments.
+> **Prefix-Tuning was explored but ultimately abandoned.**  
+Only the working LoRA + Adapter implementations are part of this HW3 submission.
+
+Large pretrained files and datasets are intentionally excluded from version control (see `.gitignore`).  
+They must be copied from **Canvas** or from your **HW2 repository** before running experiments.
 
 ---
 
 ## Directory Structure
 
-```
-
+```text
 HW3/
-├── **pycache**/                   # Python cache files
-├── logs/                          # Training & evaluation logs
-├── scripts/                       # GPU / SLURM wrapper scripts
-│   ├── run_lora_gpu.sh            # LoRA training job
-│   └── run_prefix_gpu.sh          # Prefix-Tuning training job
-├── .gitignore                     # Excludes large folders (data/, pretrain/)
-├── peft.yml                       # Conda environment for HW3
-├── peft_adapter.py                # Shared bottleneck adapter module
-├── peft_lora.py                   # LoRA implementation and trainer
-├── peft_prefix(abandoned).py      # Earlier prefix-tuning attempt (not used)
-└── starter.py                     # Original TransformerGPT definition from HW2
-
-```
+├── __pycache__/                     # Python cache files
+├── logs/                            # Training & evaluation logs
+├── scripts/                         # GPU / SLURM wrapper scripts
+│   ├── run_lora_gpu.sh              # SLURM wrapper for LoRA training
+│   └── run_adapter_gpu.sh           # SLURM wrapper for Adapter training
+├── .gitignore                       # Excludes data/ and pretrain/ large folders
+├── peft.yml                         # Conda environment for HW3
+├── peft_adapter.py                  # Bottleneck adapter module + training script
+├── peft_lora.py                     # LoRA implementation + training script
+├── peft_prefix(abandoned).py        # Early prefix-tuning attempt (not used)
+└── starter.py                       # Original TransformerGPT implementation from HW2
+````
 
 ---
 
-## Required External Folders (Not Included)
+## Required External Folders (NOT included in this repo)
 
-The following directories are intentionally excluded via `.gitignore`:
+These folders are **ignored by design** (.gitignore):
 
-- `data/`  
-  - `obqa.train.txt`  
-  - `obqa.valid.txt`  
-  - `obqa.test.txt`  
-  - `wiki.train.txt`  
-  - `wiki.valid.txt`  
-  - `wiki.test.txt`
+### **1. `data/`** — OBQA + WIKI datasets
 
-- `pretrain/`  
-  - `model_weights` (pretrained GPT-style backbone used in HW2)
+Contains:
 
-These must be copied manually from Canvas or from your HW2 directory, e.g.:
+* `obqa.train.txt`
+* `obqa.valid.txt`
+* `obqa.test.txt`
+* `wiki.train.txt`
+* `wiki.valid.txt`
+* `wiki.test.txt`
 
+### **2. `pretrain/`** — pretrained transformer weights
+
+Contains:
+
+* `model_weights` (≈560MB)
+
+You must copy them manually:
+
+```bash
+cp -r ../HW2/data ./data
+cp -r ../HW2/pretrain ./pretrain
 ```
 
-cp -r /path/to/HW2/data      ./data
-cp -r /path/to/HW2/pretrain  ./pretrain
-
-````
+Or download again from Canvas.
 
 ---
 
@@ -67,69 +85,56 @@ Create and activate the HW3 environment:
 ```bash
 conda env create -f peft.yml
 conda activate peft
-````
+```
 
-Key packages (already specified in `peft.yml`) include:
+Key packages included inside the YAML:
 
-* PyTorch (GPU-enabled)
-* HuggingFace Transformers
-* datasets / tokenizers
-* numpy, pandas, tqdm
-
-Ensure that the active machine has CUDA-compatible GPUs.
+* **torch 2.8.0** (CUDA 12)
+* numpy / pandas
+* transformers
+* datasets / evaluate / accelerate
+* tokenizers
+* tqdm
 
 ---
 
-## Running LoRA Fine-Tuning
+## Running Experiments
 
-LoRA is implemented in `peft_lora.py`. It injects low-rank matrices into attention projection layers of the GPT-style model.
+All training should be launched via SLURM wrappers in `scripts/`.
 
-Submit a GPU job via SLURM:
+### **LoRA Training**
 
 ```bash
 sbatch scripts/run_lora_gpu.sh
 ```
 
-Logs will be stored under `logs/`.
+This calls:
+
+* `peft_lora.py`
+* Injects LoRA into Q/K/V layers
+* Performs last-token prediction for HW3 classification task
 
 ---
 
-## Running Prefix-Tuning
-
-Prefix-Tuning prepends trainable K/V prefixes to the GPT attention mechanism.
-
-Submit a GPU job via:
+### **Adapter Training**
 
 ```bash
-sbatch scripts/run_prefix_gpu.sh
+sbatch scripts/run_adapter_gpu.sh
 ```
 
-The file `peft_prefix(abandoned).py` is an archived earlier attempt and not used.
+This calls:
 
----
-
-## Starter Model
-
-`starter.py` contains the unmodified HW2 TransformerGPT backbone used by both LoRA and Prefix-Tuning.
-All PEFT modules wrap or extend this base architecture.
-
----
-
-## Logs
-
-All experiment logs are saved under `logs/` and include:
-
-* Training loss over steps/epochs
-* Validation accuracy / exact-match
-* Hyperparameters for each run
+* `peft_adapter.py`
+* Adds bottleneck adapter (down → nonlinearity → up) into each Transformer block
 
 ---
 
 ## Notes
 
-* This repository is code-only: large inputs and pretrained weights are external.
-* Scripts assume the presence of local `data/` and `pretrain/` directories.
-* The environment `peft` mirrors the HW2 `transformer` environment but is declared separately for clarity.
+* **Prefix-tuning was abandoned** due to architectural complexity and masking issues.
+* All HF GPT-style components come from the original **HW2 `starter.py`**, untouched.
+* Large files are **not** tracked — use HW2 files or Canvas downloads.
+* This repo contains **only lightweight code**, ready for submission.
 
 ---
 
@@ -138,4 +143,14 @@ All experiment logs are saved under `logs/` and include:
 **Instructor:** Prof. David Demeter
 
 ```
+
+---
+
+If you'd like, I can also generate:
+
+✅ A polished GitHub-style badge header  
+✅ A cleaner tree diagram  
+✅ A short summary section for your report  
+
+Just tell me!
 ```
