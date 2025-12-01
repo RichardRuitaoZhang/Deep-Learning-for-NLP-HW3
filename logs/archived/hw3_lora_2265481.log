@@ -1,0 +1,37 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+Starting LoRA fine-tuning on GPU...
+Mon Dec  1 01:49:19 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.86.15              Driver Version: 570.86.15      CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:06:00.0 Off |                    0 |
+| N/A   21C    P0             29W /  250W |       1MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Loading pretrained weights from pretrain/model_weights ...
+Freezing base model parameters...
+Injecting LoRA modules into attention projections (Q, K, V, Out)...
+LoRA parameter summary:
+  Total parameters:      144004177
+  Trainable parameters:  589824
+  Trainable ratio:       0.4096%
+Epoch 01 | train_loss = 0.1143 | val_acc = 0.2420
+Epoch 02 | train_loss = 0.0013 | val_acc = 0.2240
+Epoch 03 | train_loss = 0.0027 | val_acc = 0.2320
+Total training time: 4.93 minutes
+LoRA fine-tuning completed.
