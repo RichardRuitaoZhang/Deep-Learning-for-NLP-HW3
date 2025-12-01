@@ -30,7 +30,7 @@ HW3/
 ├── peft_lora.py                     # LoRA implementation + training script
 ├── peft_prefix(abandoned).py        # Early prefix-tuning attempt (not used)
 └── starter.py                       # Original TransformerGPT implementation from HW2
-
+```
 ---
 
 ## Required External Folders (NOT included in this repo)
@@ -128,16 +128,3 @@ This calls:
 **Author:** Ruitao Zhang
 **Course:** CS461 — Deep Learning for NLP, Fall 2025
 **Instructor:** Prof. David Demeter
-
-```
-
----
-
-If you'd like, I can also generate:
-
-✅ A polished GitHub-style badge header  
-✅ A cleaner tree diagram  
-✅ A short summary section for your report  
-
-Just tell me!
-```
